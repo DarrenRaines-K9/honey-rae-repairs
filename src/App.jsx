@@ -3,7 +3,7 @@ import { getAllTickets } from "./services/ticketServices.js"
 import "./App.css"
 
 
-//useState() = const [stateVariable, setterFunction], must pass in an initial value for useState("[], 0, '', boolean"), must be imported from REACT 
+//useState()(REACT Component) = const [stateVariable, setterFunction], must pass in an initial value for useState("[], 0, '', boolean"), must be imported from REACT 
 export const App = () => {
 const [allTickets, setAllTickets] = useState([])
 const [showEmergencyOnly, setShowEmergencyOnly] = useState(false)
