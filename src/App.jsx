@@ -1,3 +1,57 @@
+import { useState,useEffect } from "react"
+import { getAllTickets } from "./services/ticketServices.js"
+import "./App.css"
+
+
+//useState() = const [stateVariable, setterFunction], must pass in an initial value for useState("[], 0, '', boolean"), must be imported from REACT 
 export const App = () => {
-  return <div className="welcome">Welcome to your first React Application!</div>
+const [allTickets, setAllTickets] = useState([])
+const [showEmergencyOnly, setShowEmergencyOnly] = useState(false)
+const [filteredTickets, setFilteredTickets] = useState([])
+
+//useEffect(() => {}, []) = a function and an array "useEffect is a hook like useState", must be imported from REACT 
+useEffect(() => { 
+  getAllTickets().then((ticketsArray) => {
+    setAllTickets(ticketsArray)
+    console.log("tickets set!")
+  })
+}, [])//empty [] = dependency array (when empty only runs on initial render of component)
+
+useEffect(() => {
+  if (showEmergencyOnly) {
+    const emergencyTickets = allTickets.filter(ticket => ticket.emergency === true)
+    setFilteredTickets(emergencyTickets)
+  } 
+  else {
+    setFilteredTickets(allTickets)
+  }
+console.log("show emergency change!")
+}, [showEmergencyOnly, allTickets])
+
+  return (
+  <div className= "tickets-container">
+    <h2>Tickets</h2>
+    <div>
+      <button className="filter-btn btn-primary" onClick={() => {setShowEmergencyOnly(true)}}>Emergency</button>
+    
+      <button className="filter-btn btn-info" onClick={() => {setShowEmergencyOnly(false)}}>Show All</button>
+    </div>
+    <article className="tickets">
+      {filteredTickets.map(ticket => {
+        return (
+          <section className="ticket" key={ticket.id}>
+            <header className="ticket-info">#{ticket.id}</header>
+            <div>{ticket.description}</div>
+            <footer>
+              <div>
+                <div className="ticket-info">Emergency</div>
+                <div>{ticket.emergency ? "yes" : "no"}</div>
+              </div>
+            </footer>
+          </section>
+        )
+      })}
+    </article>
+  </div>
+  )
 }
