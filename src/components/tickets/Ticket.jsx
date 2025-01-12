@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { getAllEmployees } from "../../services/employeeService"
 
-export const Ticket = ({ ticket, name}) => {
+export const Ticket = ({ ticket }) => {
     const [employees,setEmployees] = useState([])
     const [assignedEmployee, setAssignedEmployee] = useState({})
 
@@ -12,6 +12,7 @@ export const Ticket = ({ ticket, name}) => {
     }, [])
 
    useEffect(() => {
+
         const foundEmployee = employees.find(
             (employee) => employee.id === ticket.employeeTickets[0]?.employeeId)
         setAssignedEmployee(foundEmployee)
