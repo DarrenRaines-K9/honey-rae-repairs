@@ -1,4 +1,4 @@
-export const TicketFilterBar = ({setShowEmergencyOnly, setSearchTerm}) => {
+export const TicketFilterBar = ({ setShowEmergencyOnly, setSearchTerm }) => {
     return (
         <div className="filter-bar">
             <button className="filter-btn btn-primary" onClick={() => { setShowEmergencyOnly(true) }}>Emergency</button>
