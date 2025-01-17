@@ -6,18 +6,22 @@ import { TicketFilterBar } from "./ticketFilterBar"
 
 
 //useState()(REACT) = const [stateVariable, setterFunction], must pass in an initial value for useState("[], 0, '', boolean"), must be imported from REACT 
-export const TicketList = () => {
+export const TicketList = ({ currentUser }) => {
     const [allTickets, setAllTickets] = useState([])
     const [showEmergencyOnly, setShowEmergencyOnly] = useState(false)
     const [filteredTickets, setFilteredTickets] = useState([])
     const [searchTerm, setSearchTerm] = useState("")
     
+
+const getAndSetTickets = () => {
+  getAllTickets().then((ticketsArray) => {
+    setAllTickets(ticketsArray)
+  })
+}
+
     //useEffect(() => {}, []) = a function and an array "useEffect is a hook like useState", must be imported from REACT 
-    useEffect(() => { 
-      getAllTickets().then((ticketsArray) => {
-        setAllTickets(ticketsArray)
-        console.log("tickets set!")
-      })
+    useEffect(() => {
+      getAndSetTickets()
     }, [])//empty [] = dependency array (when empty only runs on initial render of component)
     
     // useEffect to fetch tickets and set to allTickets on initial render
@@ -47,7 +51,7 @@ export const TicketList = () => {
         <TicketFilterBar setShowEmergencyOnly={setShowEmergencyOnly} setSearchTerm={setSearchTerm}/>
         <article className="tickets">
           {filteredTickets.map((ticketObj) => {
-            return <Ticket ticket={ticketObj} key={ticketObj.id} />
+            return <Ticket ticket={ticketObj} currentUser={currentUser} getAndSetTickets={getAndSetTickets} key={ticketObj.id} />
             })}
         </article>
       </div>
